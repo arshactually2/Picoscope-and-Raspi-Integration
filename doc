@@ -1,0 +1,84 @@
+PicoScope Oscilloscope 2000 Series Integration with Raspberry Pi 3 Documentation
+Introduction
+This documentation provides a step-by-step guide for integrating the PicoScope Oscilloscope 2000 series, Model 2204a, with a Raspberry Pi 3. The integration enables you to obtain readings from the oscilloscope using Python scripts.
+
+Prerequisites
+Before proceeding with the integration, make sure you have the following prerequisites in place:
+
+Raspberry Pi 3 with Raspi OS (32-bit version) installed.
+SSH authentication enabled on the Raspberry Pi during configuration.
+Step 1: Raspberry Pi 3 Configuration
+1.1 Install Raspi OS and Enable SSH
+Install the Raspi OS (32-bit version) on the Raspberry Pi. Ensure that SSH authentication is turned on during the configuration.
+
+1.2 Check Internet Connectivity
+Verify the internet connectivity on the Raspberry Pi using the following command:
+
+
+    
+ping www.google.com
+To exit, use Ctrl + C.
+
+Step 2: Local Computer Setup
+2.1 Connect to Raspberry Pi via Remote-SSH
+Using Visual Studio Code (VS Code), install the Remote-SSH extension. Connect to the Raspberry Pi using the following command:
+
+ 
+    
+ssh username@inetaddress_of_pi
+Enter the password set during installation.
+
+2.2 Update Raspberry Pi
+Ensure that the Raspberry Pi is up to date by running the following commands:
+
+  
+    
+sudo apt update
+sudo apt full-upgrade
+2.3 Install Git
+Install Git on the Raspberry Pi:
+
+  
+    
+sudo apt install git pip
+2.4 Install PicoLog 6.2.8
+Download and install PicoLog 6.2.8 for the required libraries:
+
+  
+    
+wget https://www.picotech.com/download/software/picolog6/sr/picolog-6.2.8-armhf.deb
+dpkg-deb -R picolog-6.2.8-armhf.deb picolog-6.2.8-armhf
+Create a new directory named resources and copy all libraries from $HOME/picolog-6.2.8-armhf/opt/PicoLog/resources to this directory.
+
+2.5 Add Links to Libraries
+Enter the resources folder and add symbolic links to the required libraries:
+
+  
+    
+cd resources
+ln -s libps2000.so libps2000.so.2
+ln -s libps6000a.so libps6000a.so.2
+2.6 Set Library Path
+Export the library path for later use:
+
+  
+    
+export LD_LIBRARY_PATH=$HOME/path_to_resources/resources
+Step 3: Python Library Setup
+3.1 Clone Python Wrapper Repository
+Clone the Python wrapper repository from the official Pico Technology GitHub:
+
+  
+    
+git clone https://github.com/picotech/picosdk-python-wrappers.git
+cd ~/picosdk-python-wrappers
+3.2 Initialize Python Library and Pico-SDK
+Install the Python library and Pico-SDK:
+
+  
+    
+pip install . --user
+Step 4: Connect PicoScope to Raspberry Pi
+After completing the setup, connect the PicoScope Oscilloscope 2000 series to the Raspberry Pi. You are now ready to run your Python scripts to obtain readings from the oscilloscope.
+
+Feel free to explore the provided examples and documentation within the picosdk-python-wrappers repository for further customization and integration options.
